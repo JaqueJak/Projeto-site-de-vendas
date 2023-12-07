@@ -124,6 +124,108 @@
               "img": "./assets/prime rib.png",
               "preco": 155.0
           }
-    ]
+
+          
+
+    ],
+
+    "vendas": [
+        {
+            "id": 1,
+            "data": "2023-11-05T08:50:00.000Z",
+            "usuario": 2,
+            "item": 1,
+            "quantidade": 1,
+            "valorUnitario": 16.9
+        },
+        {
+            "id": 2,
+            "data": "2023-11-05T09:35:00.000Z",
+            "usuario": 2,
+            "item": 2,
+            "quantidade": 1,
+            "valorUnitario": 15.9
+        },
+        {
+            "id": 3,
+            "data": "2023-11-05T12:00:00.000Z",
+            "usuario": 2,
+            "item": 3,
+            "quantidade": 1,
+            "valorUnitario":  29.9
+        },
+        },
+        {
+            "id": 4,
+            "data": "2023-11-05T08:50:00.000Z",
+            "usuario": 2,
+            "item": 6,
+            "quantidade": 1,
+            "valorUnitario": 9.9
+        },
+        {
+            "id": 5,
+            "data": "2023-11-06T08:20:00.000Z",
+            "usuario": 3,
+            "item": 5,
+            "quantidade": 2,
+            "valorUnitario": 12.9
+        },
+        {
+            "id": 6,
+            "data": "2023-11-06T10:40:00.000Z",
+            "usuario": 3,
+            "item": 4,
+            "quantidade": 1,
+            "valorUnitario": 17.9
+        },
+        {
+            "id": 7,
+            "data": "2023-11-06T11:50:00.000Z",
+            "usuario": 3,
+            "item": 4,
+            "quantidade": 2,
+            "valorUnitario": 38.9
+        },
+        {
+            "id": 8,
+            "data": "2023-11-06T12:50:00.000Z",
+            "usuario": 2,
+            "item": 6,
+            "quantidade": 1,
+            "valorUnitario": 25.9
+        },
+        {
+            "id": 9,
+            "data": "2023-11-07T08:50:00.000Z",
+            "usuario": 2,
+            "item": 7,
+            "quantidade": 1,
+            "valorUnitario": 38.9
+        },
+        {
+            "id": 10,
+            "data": "2023-11-07T10:20:00.000Z",
+            "usuario": 2,
+            "item": 2,
+            "quantidade": 1,
+            "valorUnitario": 49.9
+        },
+        {
+            "id": 11,
+            "data": "2023-11-07T10:45:00.000Z",
+            "usuario": 3,
+            "item": 1,
+            "quantidade": 2,
+            "valorUnitario": 77.9
+        },
+        {
+            "id": 12,
+            "data": "2023-11-07T11:05:00.000Z",
+            "usuario": 1,
+            "item": 3,
+            "quantidade": 1,
+            "valorUnitario": 49.9
+        }
     
 }

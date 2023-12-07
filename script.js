@@ -1,5 +1,6 @@
 const abrir = document.getElementById("abrir");
 const login = document.getElementById("login");
+const cadastrar = document.getElementById("cadastrar");
 const salvar = document.getElementById("salvar");
 const sair = document.getElementById("sair");
 const vendas = document.getElementById("vendas");
@@ -52,7 +53,7 @@ function preencherCards() {
 			<div id="model0" class="card col-lg-3 m-2 justify-content-between">
 				<h2 class="card-title text-center">Nome</h2>
 				<p class="card-text">Tipo e Descrição</p>
-				<img src="../assets/logo.png"
+				<img src="../assets/noimage.jpg"
 					alt="Imagem Padrão" class="img">
 					<button class="btn btn-secondary" data-toggle="modal" data-target="#modalVender">Vender</button>
                     <button class="btn btn-danger oculto">Excluir</button>
