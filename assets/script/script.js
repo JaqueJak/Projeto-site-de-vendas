@@ -1,6 +1,5 @@
 const abrir = document.getElementById("abrir");
 const login = document.getElementById("login");
-const cadastrar = document.getElementById("cadastrar");
 const salvar = document.getElementById("salvar");
 const sair = document.getElementById("sair");
 const vendas = document.getElementById("vendas");
@@ -38,7 +37,7 @@ function download() {
     if (dados.usuarios.length > 0) {
         let a = document.createElement("a")
         a.href = "data:," + JSON.stringify(dados)
-        a.download = "dados.json"
+        a.download = "bd/dados.json"
         a.click();
         alert("Dados salvos pasta padrão de downloads como [dados.json]")
     } else {
@@ -50,29 +49,29 @@ function download() {
 //CRUD - READALL Produtos
 function preencherCards() {
     container.innerHTML = `
-			<div id="model0" class="card col-lg-3 m-2 justify-content-between">
-				<h2 class="card-title text-center">Nome</h2>
-				<p class="card-text">Tipo e Descrição</p>
+
+			<div id="model0" class="card">
+				<h2 class="card-title">Nome</h2>
+				<p class="card-text"></p>
 				<img src="../assets/noimage.jpg"
 					alt="Imagem Padrão" class="img">
-					<button class="btn btn-secondary" data-toggle="modal" data-target="#modalVender">Vender</button>
+					<button class="btn btn-secondary oculto" data-toggle="modal" data-target="#modalVender">Vender</button>
                     <button class="btn btn-danger oculto">Excluir</button>
-					<h4 class="card-footer text-right">Preço</h4>
-			</div>`;
+					<h4 class="card-footer">Preço</h4>
+			</div>
+      `;
     dados.itens.forEach((item, i) => {
         const model = document.getElementById('model0').cloneNode(true);
         model.setAttribute('id', 'model' + item.id);
         model.querySelector('.card-title').innerHTML = item.nome;
-        model.querySelector('.card-text').innerHTML = "<B>" + item.tipo + ":</B>";
         model.querySelector('.card-text').innerHTML += "<br/>" + item.descricao;
         model.querySelector('.img').src = item.img == "" ? "../assets/noimage.jpg" : item.img;
         model.querySelector('.card-footer').innerHTML = `R$ ${parseFloat(item.preco).toFixed(2)}`;
-        model.querySelector('.btn-secondary').setAttribute("onclick", `preencherTotal(${i})`);
+        model.querySelector('.btn-secondary').setAttribute("onclick", `venda(${i + 1})`);
         model.querySelector('.btn-danger').setAttribute("onclick", `excluirItem(${i})`);
-        if (usuario.email == undefined) {
-            model.querySelector('.btn').classList.add("oculto");
-        } else if (usuario.tipo == "admin") {
+        if (usuario.tipo == "admin") {
             model.querySelector('.btn-danger').classList.remove("oculto");
+            model.querySelector('.btn-secondary').classList.remove("oculto");
         }
         container.appendChild(model);
     });
@@ -86,11 +85,12 @@ formLogin.addEventListener("submit", e => {
     dados.usuarios.forEach(user => {
         if (user.email == formLogin.email.value && user.senha == formLogin.senha.value) {
             usuario = user;
+            console.log(usuario)
             login.classList.add("oculto");
             salvar.classList.remove("oculto");
             sair.classList.remove("oculto");
             if (usuario.tipo == "admin") item.classList.remove("oculto");
-            $('#modalLogin').modal('hide');
+            // $('#modalLogin').modal('hide');
             preencherCards();
             bemVindo();
             encontrado = true;
@@ -125,6 +125,7 @@ function preencherTotal(indice) {
     let quantidade = parseInt(formVender.quantidade.value);
     let preco = parseFloat(formVender.preco.value);
     formVender.total.value = (quantidade * preco).toFixed(2);
+    formVender.classList.remove('oculto')
 }
 
 formVender.addEventListener("change", () => {
@@ -145,39 +146,19 @@ formVender.addEventListener("submit", e => {
         valorUnitario: parseFloat(formVender.preco.value),
     }
     dados.vendas.push(venda);
-    $('#modalVender').modal('hide');
+
     alert("Venda registrada com sucesso, não se esqueça de salvar os dados.");
 });
 
 //CRUD - READALL Vendas
-function preencherVendas() {
-    vendas.innerHTML = "";
-    //Listar vendas de hoje
-    const hoje = new Date();
-    const dia = hoje.getDate();
-    const mes = hoje.getMonth() + 1;
-    const ano = hoje.getFullYear();
-    const data = `${ano}-${mes < 10 ? "0" + mes : mes}-${dia < 10 ? "0" + dia : dia}`;
-    let total = 0;
-    dados.vendas.forEach(venda => {
-        if (venda.data.slice(0, 10) == data) {
-            const linha = document.createElement('tr');
-            const data_e_hora = `${venda.data.slice(0, 16)}`;
-            linha.innerHTML = `
-            <td><input type="datetime-local" value="${data_e_hora}" disabled/></td>
-            <td>${getNomeUsuario(venda.usuario)}</td>
-            <td>${getNomeItem(venda.item)}</td>
-            <td>${venda.quantidade}</td>
-            <td>${venda.valorUnitario}</td>
-            <td>${venda.quantidade * venda.valorUnitario}</td>
-            ${usuario.tipo == "admin" ? "<td><button class='btn btn-danger' onclick='excluirVenda(" + venda.id + ")'>-</button></td>" : ""}`;
-            vendas.appendChild(linha);
-            total += venda.quantidade * venda.valorUnitario;
+function venda(id){
+    dados.itens.forEach(produto => {
+        if(produto.id == id){
+            console.log(produto)
         }
-    });
-    vendas.appendChild(document.createElement('tr')).innerHTML = `<td colspan="5">Total</td><td><h4>R$ ${total.toFixed(2)}</h4></td>`;
+    })
+    
 }
-
 //CRUD - CREATE Item
 formItem.addEventListener("submit", e => {
     e.preventDefault();
@@ -185,12 +166,12 @@ formItem.addEventListener("submit", e => {
         id: dados.itens[dados.itens.length - 1].id + 1,
         nome: formItem.nome.value,
         descricao: formItem.descricao.value,
-        tipo: formItem.tipo.value,
+        // tipo: formItem.tipo.value,
         preco: parseFloat(formItem.preco.value),
         img: formItem.img.value,
     }
     dados.itens.push(item);
-    $('#modalItem').modal('hide');
+    // $('#modalItem').modal('hide');
     alert("Ítem criado com sucesso, não se esqueça de salvar os dados.");
     preencherCards();
 });
@@ -228,4 +209,35 @@ function getNomeItem(id) {
         if (item.id == id) nome = item.nome;
     });
     return nome;
+}
+
+function getHorario(){
+    let data = new Date();
+    let dia = data.getDate();
+    let mes = data.getMonth() + 1;
+    let ano = data.getFullYear();
+    let hora = data.getHours();
+    let min = data.getMinutes();
+
+    
+}
+
+function aparecer(){
+    let form = document.querySelector("#modalLogin");
+    form.classList.remove('oculto')
+
+}
+
+function remover(){
+    let form = document.querySelector("#modalLogin");
+    form.classList.toggle('oculto')
+}
+
+function aparecerModal(){
+    let aaa = document.querySelector("#modalItem")
+    aaa.classList.remove('oculto')
+}
+
+function apagaModal(e){
+ e.parentElement.parentElement.parentElement.parentElement.classList.toggle('oculto')
 }
